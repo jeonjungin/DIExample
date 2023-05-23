@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.GetPokemonUseCase
 import com.example.presentation.ui.state.CardUiState
-import com.example.domain.Result
+import com.example.domain.RepoResult
 import com.example.domain.model.Pokemon
-import com.example.presentation.ui.state.FeelingUiState
+import com.example.presentation.ui.state.HpUiState
 import com.example.presentation.ui.state.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -35,7 +35,7 @@ class MainViewModel @Inject constructor(
         initialValue = CardUiState.Empty
     )
 
-    fun updateById(id: String) {
+    private fun updateById(id: String) {
         viewModelScope.launch {
             insertIdEvent.emit(id)
             _inputUiState.update {
@@ -51,24 +51,24 @@ class MainViewModel @Inject constructor(
         }
     )
 
-    private fun Result<Pokemon>.toCardUiState() = when (this) {
-        is Result.Success -> value.toValidCard()
-        is Result.GenericError -> CardUiState.Empty
-        is Result.NetworkError -> CardUiState.Empty
+    private fun RepoResult<Pokemon>.toCardUiState() = when (this) {
+        is RepoResult.Success -> value.toValidCard()
+        is RepoResult.GenericError -> CardUiState.Empty
+        is RepoResult.NetworkError -> CardUiState.Empty
     }
 
     private fun Pokemon.toValidCard(): CardUiState.Valid {
-        val feeling = if (feeling > 50) {
-            FeelingUiState.High(feeling)
+        val hpState = if (hp > 50) {
+            HpUiState.High(hp)
         } else {
-            FeelingUiState.Low(feeling)
+            HpUiState.Low(hp)
         }
 
         return CardUiState.Valid(
             id = id,
             name = name,
             imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png",
-            feeling = feeling
+            hp = hpState
         )
     }
 }

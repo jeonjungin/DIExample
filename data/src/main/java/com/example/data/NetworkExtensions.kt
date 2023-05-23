@@ -1,16 +1,16 @@
 package com.example.data
 
 import com.skydoves.sandwich.ApiResponse
-import com.example.domain.Result
+import com.example.domain.RepoResult
 
 fun <T, R> ApiResponse<T>.toResult(mapper: (raw: T) -> R) = when (this) {
     is ApiResponse.Success -> {
-        Result.Success(mapper(data))
+        RepoResult.Success(mapper(data))
     }
     is ApiResponse.Failure.Error -> {
-        Result.GenericError(statusCode.code.toString(), "")
+        RepoResult.GenericError(statusCode.code.toString(), "")
     }
     is ApiResponse.Failure.Exception -> {
-        Result.NetworkError
+        RepoResult.NetworkError
     }
 }

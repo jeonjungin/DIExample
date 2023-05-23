@@ -1,6 +1,5 @@
 package com.example.presentation.ui.composable
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -14,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.presentation.R
 import com.example.presentation.ui.state.CardUiState
-import com.example.presentation.ui.state.FeelingUiState
+import com.example.presentation.ui.state.HpUiState
 
 @Composable
 fun PokemonCard(
@@ -42,9 +41,9 @@ fun PokemonCard(
 private fun getCardColor(state: CardUiState) = when (state) {
     is CardUiState.Empty -> colorResource(id = R.color.gray)
     is CardUiState.Valid -> {
-        when (state.feeling) {
-            is FeelingUiState.Low -> colorResource(id = R.color.blue)
-            is FeelingUiState.High -> colorResource(id = R.color.red)
+        when (state.hp) {
+            is HpUiState.Low -> colorResource(id = R.color.blue)
+            is HpUiState.High -> colorResource(id = R.color.red)
         }
     }
 }
@@ -96,6 +95,6 @@ private fun ValidPokemonContent(state: CardUiState.Valid) {
         )
         Text(text = "Id: ${state.id}")
         Text(text = "Name: ${state.name}")
-        Text(text = "Feeling: ${state.feeling.value}")
+        Text(text = "HP: ${state.hp.value}")
     }
 }

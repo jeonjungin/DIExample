@@ -4,5 +4,5 @@ data class Pokemon(
     val id: String,
     val name: String,
     val type: String,
-    val feeling: Int
+    val hp: Int
 )

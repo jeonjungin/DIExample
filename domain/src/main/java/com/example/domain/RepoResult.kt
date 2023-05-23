@@ -1,14 +1,14 @@
 package com.example.domain
 
-sealed class Result<out T> {
+sealed class RepoResult<out T> {
     data class Success<T>(
         val value: T
-    ): Result<T>()
+    ): RepoResult<T>()
 
     data class GenericError(
         val code: String,
         val msg: String
-    ): Result<Nothing>()
+    ): RepoResult<Nothing>()
 
-    object NetworkError: Result<Nothing>()
+    object NetworkError: RepoResult<Nothing>()
 }

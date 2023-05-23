@@ -11,7 +11,7 @@ data class PokemonRemote (
     val name: String? = null,
     @SerializedName("type")
     val type: TypeRemote? = null,
-    val feeling: Int = Random.nextInt(100)
+    val hp: Int = Random.nextInt(100)
 )
 
 data class TypeRemote (
@@ -30,5 +30,5 @@ fun PokemonRemote.toDomain() = Pokemon(
     id = id?: "",
     name = name?: "",
     type = type?.type?.name?: "",
-    feeling = feeling
+    hp = hp
 )
